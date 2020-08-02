@@ -39,7 +39,13 @@ class PatternLabDeriver extends LibraryDeriver {
     // Get a list of the path to /templates in all active modules and themes
     $active_directories = $this->getDirectories();
     foreach ($active_directories as $provider => $path) {
-      $active_directories[$provider] = $path . "/templates";
+      $path = $path . "/templates";
+      if (!is_dir($path)) {
+        unset($active_directories[$provider]);
+      }
+      else {
+        $active_directories[$provider] = $path;
+      }
     }
 
     // Get the list of currently active default theme and related base themes
